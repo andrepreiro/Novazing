@@ -34,5 +34,5 @@ Gerrit lynx Nova Software
   <preference name="fullscreen"       value="false" />
 
   <plugin name="InAppBrowser" value="CDVInAppBrowser" />
-  <preference name="splash-screen-duration" value="10000" />
+  <preference name="splash-screen-duration" value="5000" />
 </widget>
