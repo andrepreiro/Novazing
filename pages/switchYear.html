@@ -1,0 +1,57 @@
+<div class="page">
+    <div id="header" class="bar">
+        <div id="btnBack" class="btn-left">
+            <span>Back</span>
+        </div>
+        <h1>Switch Year</h1>
+    </div>
+    <div id="content">
+        <div class="content-scroll">
+            <div class="content-w1">
+                <!-- <p>coming soon...</p> -->
+				<ul id="years" class="list">
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<script language="javascript" type="text/javascript">
+    (function () {
+		var service = new DbService();
+        function renderYears(targets) {
+            if (targets.length == 0) {
+				var year = new Date().getFullYear();
+                targets.push({ key: year });
+            }
+            var html = "";
+            targets.each(function () {
+                html +=
+                    '<li id="' + this.key + '" data-year="' + this.key + '">\
+                        <div class="target-year">' + this.key + '</div>\
+                    </li>';
+            });
+            $("#years").html(html);
+        }
+
+        function bindDomEvents() {
+            nova.touch.bindClick("#years li", function () {
+                nova.application.currentYear = $(this).attr("data-year") * 1;
+				nova.application.gotoPage("home.html");
+            });
+            //$("#content").height($(window).height() - 50 + "px");
+            //var scroller = new nova.Scroller(".content-scroll");
+            //scroller.init();
+        }
+	
+        $(document).ready(function () {
+			service.getAllTargetYears(function(targets){
+				renderYears(targets);
+				bindDomEvents();
+			});
+            nova.touch.bindClick("#btnBack", function () {
+                nova.application.goBack();
+            });
+        });
+    })();
+</script>

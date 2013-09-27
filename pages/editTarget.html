@@ -1,0 +1,99 @@
+<div class="page">
+    <div id="header" class="bar">
+        <div id="btnBack" class="btn-left btn-cancel">
+            <span>Back</span>
+        </div>
+    </div>
+    <div id="content" class="form">
+        <div class="content-scroll">
+            <div class="content-w1">
+                <div class="group">
+                    <label>Title:</label>
+                    <div class="form-text" id="txtTitle"></div>
+                </div>
+                <div class="group">
+                    <label>Start Date:</label>
+                    <div class="form-text" id="txtStartDate"></div>
+                </div>
+                <div class="group">
+                    <label>Target:</label>
+                    <div class="form-text" id="txtTarget"></div>
+                </div>
+                <div class="group">
+                    <label>Display Order:</label>
+                    <div class="form-text" id="txtDisplayOrder"></div>
+                </div>
+            </div>    
+        </div>
+    </div>
+    <div id="footer" class="bar">
+        <ul class="nav3">
+            <li id="btnSave"><span>Save</span></li>
+            <li id="btnDelete"><span>Delete</span></li>
+            <li id="cancelLink" class="btn-cancel"><span>Cancel</span></li>
+        </ul>
+    </div>
+</div>
+<script language="javascript" type="text/javascript">
+    (function () {
+        var editingTarget = null;
+        var service = new DbService();
+        $(document).ready(function () {
+            editingTarget = nova.application.currentPage.target;
+            $("#txtTitle").html(editingTarget.title);
+            $("#txtStartDate").html(editingTarget.startDate.toShortDateString());
+            $("#txtDisplayOrder").html(editingTarget.displayOrder);
+            $("#txtTarget").html(editingTarget.target);
+
+            nova.touch.bindClick(".btn-cancel", function () {
+                nova.application.goBack();
+            });
+            nova.touch.bindClick("#btnSave", function () {
+                editingTarget.title = $("#txtTitle").html();
+                editingTarget.startDate = new Date($("#txtStartDate").html());
+                editingTarget.displayOrder = $("#txtDisplayOrder").html() * 1;
+                editingTarget.target = $("#txtTarget").html() * 1;
+                if (editingTarget.target <= 0) {
+                    alert('Target must be greater than 0');
+                    return;
+                }
+                service.saveTarget(editingTarget, function () {
+                    nova.application.goBack();
+                });
+            });
+            if (editingTarget.id > 0) {
+                nova.touch.bindClick("#btnDelete", function () {
+                    var dialog = new nova.widgets.Dialog("deleteDialog");
+                    dialog.title = "Delete Confirm";
+                    dialog.height = 160;
+                    dialog.content = "Are you sure you want to delete this target?";
+                    dialog.buttons = {
+                        "Delete": function () {
+                            service.deleteTarget(editingTarget.id, function () {
+                                nova.application.goBack("home.html");
+                            });
+                        },
+                        "Cancel": function () {
+                            dialog.close();
+                        }
+                    };
+                    dialog.closed = function () {
+                        nova.application.currentPage.backbuttonHandlers.pop();
+                    };
+                    nova.application.currentPage.backbutton(function () {
+                        dialog.close();
+                    });
+                    dialog.show();
+                });
+            }
+            else {
+                $("#btnDelete").parent().removeClass("nav3").addClass("nav2");
+                $("#btnDelete").remove();
+            }
+            new nova.Form(".form").init();
+            $("#content").height($(window).height() - 102 + "px");
+            var scroller = new nova.Scroller(".content-scroll");
+            scroller.init();
+        });
+    })();
+</script>

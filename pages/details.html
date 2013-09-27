@@ -1,0 +1,62 @@
+<div class="page">
+    <div id="header" class="bar">
+        <div id="btnBack" class="btn-left btn-cancel">
+            <span>Back</span>
+        </div>
+        <h1 id="lblTitle"></h1>
+    </div>
+    <div id="content">
+        <div class="content-scroll">
+            <div class="content-w1">
+                <div class="group">
+                    <div class="target">
+                        <div class="progress"></div>
+                        <div class="progress-today"></div>
+                        <div class="target-values">
+                            <span class="progress-percent">
+                                0%
+                            </span>
+                            (<span class="progress-count"></span>)
+                        </div>
+                    </div>
+                </div>
+                <div class="group">
+                    <b>Start Date: </b>
+                    <label id="lblStart"></label>
+                </div>
+                <div class="group">
+                    <b>Total Days: </b>
+                    <label id="lblTotalDays"></label>
+                </div>
+                <div class="group">
+                    <b>Margin: </b>
+                    <label id="lblMargin">0</label>
+                </div>
+                <p>&nbsp;</p>
+                <div class="group">
+                    <b>To be Added:</b>
+                    <label id="lblTobeAdded">0</label>
+                </div>
+                <div class="group">
+                    <span id="btnAdd" class="link">+ 1</span>
+                    <span id="btnAdd10" class="link">+ 10</span>
+                    <span id="btnAdd100" class="link">+ 100</span>
+                    <span id="btnAdd1000" class="link">+ 1k</span>
+                    <span id="btnAdd10000" class="link">+ 10k</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="footer" class="bar">
+        <ul class="nav3">
+            <li id="btnApply"><span>Apply</span></li>
+            <li id="btnCancel" class="btn-cancel"><span>Cancel</span></li>
+            <li id="btnEdit"><span>Edit</span></li>
+        </ul>
+    </div>
+</div>
+<script language="javascript" type="text/javascript">
+    (function () {
+        atApp.pages.details.init();
+    })();
+</script>
